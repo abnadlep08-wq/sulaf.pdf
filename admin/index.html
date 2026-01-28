@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم sulaf.pdf - إدارة الروايات</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../assets/icons/favicon.ico">
+</head>
+<body class="admin-body">
+    <!-- شاشة تحميل لوحة التحكم -->
+    <div class="admin-loading" id="adminLoading">
+        <div class="admin-loading-content">
+            <div class="admin-logo">
+                <i class="fas fa-cogs"></i>
+                <h1>لوحة <span>التحكم</span></h1>
+            </div>
+            <p>جاري تحميل لوحة إدارة الروايات...</p>
+            <div class="admin-progress">
+                <div class="admin-progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- شاشة تسجيل دخول الأدمن -->
+    <div class="admin-login-container" id="adminLogin">
+        <div class="admin-login-box">
+            <div class="admin-login-header">
+                <div class="admin-logo">
+                    <i class="fas fa-shield-alt"></i>
+                    <h2>sulaf.<span>pdf</span></h2>
+                </div>
+                <h3>تسجيل دخول الأدمن</h3>
+                <p>لوحة تحكم إدارة الروايات والمحتوى</p>
+            </div>
+            
+            <form id="adminLoginForm">
+                <div class="form-group">
+                    <label for="adminUsername"><i class="fas fa-user-shield"></i> اسم المستخدم</label>
+                    <input type="text" id="adminUsername" placeholder="أدخل اسم المستخدم" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="adminPassword"><i class="fas fa-key"></i> كلمة المرور</label>
+                    <input type="password" id="adminPassword" placeholder="أدخل كلمة المرور" required>
+                </div>
+                
+                <div class="form-group remember-me">
+                    <input type="checkbox" id="rememberAdmin">
+                    <label for="rememberAdmin">تذكرني</label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-admin">
+                    <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+                </button>
+                
+                <div class="admin-login-footer">
+                    <p>تم التطوير بواسطة <strong>Adlep X</strong> <a href="https://instagram.com/xlb_me" target="_blank">@xlb_me</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- لوحة التحكم الرئيسية -->
+    <div class="admin-dashboard" id="adminDashboard" style="display: none;">
+        <!-- الشريط الجانبي -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <div class="admin-logo">
+                    <i class="fas fa-dragon"></i>
+                    <h2>sulaf.<span>pdf</span></h2>
+                </div>
+                <div class="admin-profile">
+                    <div class="admin-avatar">
+                        <i class="fas fa-user-cog"></i>
+                    </div>
+                    <div class="admin-info">
+                        <h4 id="adminName">مدير النظام</h4>
+                        <p id="adminRole">مدير عام</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="admin-menu">
+                <ul>
+                    <li>
+                        <a href="#" class="menu-item active" data-section="dashboard">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>لوحة التحكم</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-item" data-section="novels">
+                            <i class="fas fa-book"></i>
+                            <span>إدارة الروايات</span>
+                            <span class="menu-badge" id="novelsCount">0</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-item" data-section="users">
+                            <i class="fas fa-users"></i>
+                            <span>إدارة المستخدمين</span>
+                            <span class="menu-badge" id="usersCount">0</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-item" data-section="categories">
+                            <i class="fas fa-tags"></i>
+                            <span>التصنيفات</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-item" data-section="reports">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>التقارير والإحصائيات</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-item" data-section="settings">
+                            <i class="fas fa-cog"></i>
+                            <span>الإعدادات</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-item" data-section="addNovel">
+                            <i class="fas fa-plus-circle"></i>
+                            <span>إضافة رواية جديدة</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="../index.html" class="btn btn-outline btn-sm" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> عرض الموقع
+                </a>
+                <button class="btn btn-danger btn-sm" id="adminLogout">
+                    <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+                </button>
+            </div>
+        </aside>
+
+        <!-- المحتوى الرئيسي -->
+        <main class="admin-content">
+            <!-- شريط التنقل العلوي -->
+            <header class="admin-topbar">
+                <div class="topbar-left">
+                    <button class="menu-toggle" id="menuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h3 id="pageTitle">لوحة التحكم</h3>
+                </div>
+                
+                <div class="topbar-right">
+                    <div class="admin-search">
+                        <input type="text" placeholder="بحث في لوحة التحكم...">
+                        <button><i class="fas fa-search"></i></button>
+                    </div>
+                    
+                    <div class="admin-notifications">
+                        <button class="notification-btn" id="notificationBtn">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-count">3</span>
+                        </button>
+                    </div>
+                    
+                    <div class="admin-date">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span id="currentDate">جاري التحميل...</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- المحتوى الديناميكي -->
+            <div class="admin-sections">
+                <!-- قسم لوحة التحكم الرئيسية -->
+                <section class="admin-section active" id="dashboardSection">
+                    <div class="section-header">
+                        <h2>لوحة التحكم الرئيسية</h2>
+                        <p>نظرة عامة على إحصائيات الموقع والأداء</p>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background-color: rgba(109, 40, 217, 0.1);">
+                                <i class="fas fa-book" style="color: #6d28d9;"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalNovels">0</h3>
+                                <p>إجمالي الروايات</p>
+                            </div>
+                            <div class="stat-trend up">
+                                <i class="fas fa-arrow-up"></i> 12%
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background-color: rgba(16, 185, 129, 0.1);">
+                                <i class="fas fa-users" style="color: #10b981;"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalUsers">0</h3>
+                                <p>إجمالي المستخدمين</p>
+                            </div>
+                            <div class="stat-trend up">
+                                <i class="fas fa-arrow-up"></i> 8%
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background-color: rgba(245, 158, 11, 0.1);">
+                                <i class="fas fa-download" style="color: #f59e0b;"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalDownloads">0</h3>
+                                <p>إجمالي التنزيلات</p>
+                            </div>
+                            <div class="stat-trend up">
+                                <i class="fas fa-arrow-up"></i> 24%
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background-color: rgba(239, 68, 68, 0.1);">
+                                <i class="fas fa-comments" style="color: #ef4444;"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalComments">0</h3>
+                                <p>التعليقات الجديدة</p>
+                            </div>
+                            <div class="stat-trend down">
+                                <i class="fas fa-arrow-down"></i> 5%
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-grid">
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h4>إحصائيات التنزيلات الشهرية</h4>
+                                <select class="chart-period">
+                                    <option value="month">هذا الشهر</option>
+                                    <option value="year">هذه السنة</option>
+                                    <option value="week">هذا الأسبوع</option>
+                                </select>
+                            </div>
+                            <div class="chart-placeholder" id="downloadsChart">
+                                <canvas id="downloadsChartCanvas"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h4>نسبة الروايات حسب التصنيف</h4>
+                            </div>
+                            <div class="chart-placeholder" id="categoriesChart">
+                                <canvas id="categoriesChartCanvas"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="recent-activity">
+                        <div class="activity-header">
+                            <h4>آخر النشاطات</h4>
+                            <button class="btn btn-outline btn-sm">عرض الكل</button>
+                        </div>
+                        <div class="activity-list" id="activityList">
+                            <!-- سيتم ملؤها بالجافاسكريبت -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- قسم إدارة الروايات -->
+                <section class="admin-section" id="novelsSection">
+                    <div class="section-header">
+                        <h2>إدارة الروايات</h2>
+                        <p>عرض، تعديل، حذف وإضافة روايات جديدة</p>
+                    </div>
+                    
+                    <div class="section-tools">
+                        <div class="tools-left">
+                            <div class="search-box">
+                                <input type="text" id="novelSearch" placeholder="بحث في الروايات...">
+                                <button><i class="fas fa-search"></i></button>
+                            </div>
+                            <select id="novelFilter">
+                                <option value="all">جميع الروايات</option>
+                                <option value="published">منشورة</option>
+                                <option value="draft">مسودة</option>
+                                <option value="pending">قيد المراجعة</option>
+                            </select>
+                        </div>
+                        
+                        <div class="tools-right">
+                            <button class="btn btn-primary" id="addNovelBtn">
+                                <i class="fas fa-plus"></i> إضافة رواية
+                            </button>
+                            <button class="btn btn-outline" id="exportNovelsBtn">
+                                <i class="fas fa-file-export"></i> تصدير
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table class="admin-table" id="novelsTable">
+                            <thead>
+                                <tr>
+                                    <th width="50">
+                                        <input type="checkbox" id="selectAll">
+                                    </th>
+                                    <th width="80">الصورة</th>
+                                    <th>العنوان</th>
+                                    <th>المؤلف</th>
+                                    <th>التصنيف</th>
+                                    <th>النوع</th>
+                                    <th>الحالة</th>
+                                    <th>التنزيلات</th>
+                                    <th>التقييم</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="novelsTableBody">
+                                <!-- سيتم ملؤها بالجافاسكريبت -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="table-footer">
+                        <div class="table-info">
+                            عرض <span id="startRow">1</span> إلى <span id="endRow">10</span> من <span id="totalRows">0</span> رواية
+                        </div>
+                        <div class="pagination" id="novelsPagination">
+                            <!-- سيتم ملؤها بالجافاسكريبت -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- قسم إدارة المستخدمين -->
+                <section class="admin-section" id="usersSection">
+                    <div class="section-header">
+                        <h2>إدارة المستخدمين</h2>
+                        <p>إدارة حسابات المستخدمين والصلاحيات</p>
+                    </div>
+                    
+                    <div class="section-tools">
+                        <div class="tools-left">
+                            <div class="search-box">
+                                <input type="text" id="userSearch" placeholder="بحث في المستخدمين...">
+                                <button><i class="fas fa-search"></i></button>
+                            </div>
+                            <select id="userFilter">
+                                <option value="all">جميع المستخدمين</option>
+                                <option value="active">نشط</option>
+                                <option value="inactive">غير نشط</option>
+                                <option value="premium">مميز</option>
+                                <option value="regular">عادي</option>
+                            </select>
+                        </div>
+                        
+                        <div class="tools-right">
+                            <button class="btn btn-primary" id="addUserBtn">
+                                <i class="fas fa-user-plus"></i> إضافة مستخدم
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table class="admin-table" id="usersTable">
+                            <thead>
+                                <tr>
+                                    <th width="50">
+                                        <input type="checkbox" id="selectAllUsers">
+                                    </th>
+                                    <th width="60">الصورة</th>
+                                    <th>الاسم</th>
+                                    <th>البريد الإلكتروني</th>
+                                    <th>نوع الاشتراك</th>
+                                    <th>الحالة</th>
+                                    <th>تاريخ التسجيل</th>
+                                    <th>عدد الروايات</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody">
+                                <!-- سيتم ملؤها بالجافاسكريبت -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="table-footer">
+                        <div class="table-info">
+                            عرض <span id="userStartRow">1</span> إلى <span id="userEndRow">10</span> من <span id="userTotalRows">0</span> مستخدم
+                        </div>
+                        <div class="pagination" id="usersPagination">
+                            <!-- سيتم ملؤها بالجافاسكريبت -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- قسم التصنيفات -->
+                <section class="admin-section" id="categoriesSection">
+                    <div class="section-header">
+                        <h2>إدارة التصنيفات</h2>
+                        <p>إضافة وتعديل وحذف تصنيفات الروايات</p>
+                    </div>
+                    
+                    <div class="categories-grid">
+                        <div class="categories-list">
+                            <div class="list-header">
+                                <h4>التصنيفات الحالية</h4>
+                                <button class="btn btn-primary btn-sm" id="addCategoryBtn">
+                                    <i class="fas fa-plus"></i> إضافة تصنيف
+                                </button>
+                            </div>
+                            <div class="categories-items" id="categoriesList">
+                                <!-- سيتم ملؤها بالجافاسكريبت -->
+                            </div>
+                        </div>
+                        
+                        <div class="category-form-container">
+                            <div class="form-header">
+                                <h4 id="formTitle">إضافة تصنيف جديد</h4>
+                                <p id="formSubtitle">املأ البيانات لإضافة تصنيف جديد</p>
+                            </div>
+                            
+                            <form id="categoryForm">
+                                <input type="hidden" id="categoryId">
+                                
+                                <div class="form-group">
+                                    <label for="categoryName">اسم التصنيف *</label>
+                                    <input type="text" id="categoryName" placeholder="أدخل اسم التصنيف" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="categorySlug">الرابط المختصر *</label>
+                                    <input type="text" id="categorySlug" placeholder="مثال: fantasy" required>
+                                    <small>يستخدم في روابط الموقع، يجب أن يكون بالإنجليزية</small>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="categoryDescription">الوصف</label>
+                                    <textarea id="categoryDescription" rows="3" placeholder="وصف قصير للتصنيف"></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="categoryColor">لون التصنيف</label>
+                                    <input type="color" id="categoryColor" value="#6d28d9">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="categoryIcon">الأيقونة</label>
+                                    <select id="categoryIcon">
+                                        <option value="fa-book">كتاب</option>
+                                        <option value="fa-dragon">تنين</option>
+                                        <option value="fa-magic">سحر</option>
+                                        <option value="fa-crown">تاج</option>
+                                        <option value="fa-shield">درع</option>
+                                        <option value="fa-sword">سيف</option>
+                                        <option value="fa-star">نجمة</option>
+                                        <option value="fa-heart">قلب</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>الحالة</label>
+                                    <div class="radio-group">
+                                        <label>
+                                            <input type="radio" name="categoryStatus" value="active" checked>
+                                            <span>نشط</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="categoryStatus" value="inactive">
+                                            <span>غير نشط</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary" id="saveCategoryBtn">
+                                        <i class="fas fa-save"></i> حفظ التصنيف
+                                    </button>
+                                    <button type="button" class="btn btn-outline" id="cancelCategoryBtn">
+                                        <i class="fas fa-times"></i> إلغاء
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- قسم التقارير والإحصائيات -->
+                <section class="admin-section" id="reportsSection">
+                    <div class="section-header">
+                        <h2>التقارير والإحصائيات</h2>
+                        <p>تقارير تفصيلية عن أداء الموقع</p>
+                    </div>
+                    
+                    <div class="reports-grid">
+                        <div class="report-card">
+                            <div class="report-header">
+                                <h4>أكثر الروايات تنزيلاً</h4>
+                                <select class="report-period">
+                                    <option value="week">هذا الأسبوع</option>
+                                    <option value="month">هذا الشهر</option>
+                                    <option value="year">هذه السنة</option>
+                                </select>
+                            </div>
+                            <div class="report-content">
+                                <ul class="top-list" id="topDownloadsList">
+                                    <!-- سيتم ملؤها بالجافاسكريبت -->
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="report-card">
+                            <div class="report-header">
+                                <h4>أكثر الروايات تقييماً</h4>
+                            </div>
+                            <div class="report-content">
+                                <ul class="top-list" id="topRatedList">
+                                    <!-- سيتم ملؤها بالجافاسكريبت -->
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="report-card">
+                            <div class="report-header">
+                                <h4>أكثر المستخدمين نشاطاً</h4>
+                            </div>
+                            <div class="report-content">
+                                <ul class="top-list" id="topUsersList">
+                                    <!-- سيتم ملؤها بالجافاسكريبت -->
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="report-card">
+                            <div class="report-header">
+                                <h4>إحصائيات النمو</h4>
+                            </div>
+                            <div class="report-content">
+                                <div class="growth-stats">
+                                    <div class="growth-item">
+                                        <span class="growth-label">المستخدمين الجدد</span>
+                                        <span class="growth-value up">+124</span>
+                                    </div>
+                                    <div class="growth-item">
+                                        <span class="growth-label">الروايات الجديدة</span>
+                                        <span class="growth-value up">+18</span>
+                                    </div>
+                                    <div class="growth-item">
+                                        <span class="growth-label">التنزيلات</span>
+                                        <span class="growth-value up">+1,245</span>
+                                    </div>
+                                    <div class="growth-item">
+                                        <span class="growth-label">التعليقات</span>
+                                        <span class="growth-value down">-12</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="detailed-report">
+                        <div class="report-header">
+                            <h4>تقرير الأداء التفصيلي</h4>
+                            <div class="report-actions">
+                                <button class="btn btn-outline btn-sm" id="exportReportBtn">
+                                    <i class="fas fa-file-excel"></i> تصدير Excel
+                                </button>
+                                <button class="btn btn-outline btn-sm" id="printReportBtn">
+                                    <i class="fas fa-print"></i> طباعة
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="report-filters">
+                            <div class="filter-group">
+                                <label>نوع التقرير:</label>
+                                <select id="reportType">
+                                    <option value="monthly">شهري</option>
+                                    <option value="weekly">أسبوعي</option>
+                                    <option value="daily">يومي</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label>الفترة:</label>
+                                <input type="date" id="reportStartDate">
+                                <span>إلى</span>
+                                <input type="date" id="reportEndDate">
+                            </div>
+                            
+                            <button class="btn btn-primary" id="generateReportBtn">
+                                <i class="fas fa-chart-line"></i> توليد التقرير
+                            </button>
+                        </div>
+                        
+                        <div class="report-table-container">
+                            <table class="report-table" id="detailedReportTable">
+                                <thead>
+                                    <tr>
+                                        <th>التاريخ</th>
+                                        <th>المستخدمين الجدد</th>
+                                        <th>الروايات الجديدة</th>
+                                        <th>التنزيلات</th>
+                                        <th>التعليقات</th>
+                                        <th>الإيرادات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reportTableBody">
+                                    <!-- سيتم ملؤها بالجافاسكريبت -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- قسم الإعدادات -->
+                <section class="admin-section" id="settingsSection">
+                    <div class="section-header">
+                        <h2>إعدادات النظام</h2>
+                        <p>إعدادات الموقع العامة والتقنية</p>
+                    </div>
+                    
+                    <div class="settings-tabs">
+                        <button class="settings-tab active" data-tab="general">عام</button>
+                        <button class="settings-tab" data-tab="appearance">المظهر</button>
+                        <button class="settings-tab" data-tab="notifications">الإشعارات</button>
+                        <button class="settings-tab" data-tab="security">الأمان</button>
+                        <button class="settings-tab" data-tab="seo">SEO</button>
+                        <button class="settings-tab" data-tab="advanced">متقدم</button>
+                    </div>
+                    
+                    <div class="settings-content">
+                        <div class="settings-tab-content active" id="generalTab">
+                            <form id="generalSettingsForm">
+                                <div class="form-group">
+                                    <label for="siteName">اسم الموقع</label>
+                                    <input type="text" id="siteName" value="sulaf.pdf" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="siteDescription">وصف الموقع</label>
+                                    <textarea id="siteDescription" rows="3" required>أكبر مكتبة روايات فانتازيا عربية</textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="siteEmail">البريد الإلكتروني للموقع</label>
+                                    <input type="email" id="siteEmail" value="info@sulaf.pdf" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="sitePhone">هاتف الدعم</label>
+                                    <input type="text" id="sitePhone" value="+966 123 456 789">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="siteAddress">عنوان الموقع</label>
+                                    <input type="text" id="siteAddress" placeholder="العنوان">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="timezone">المنطقة الزمنية</label>
+                                    <select id="timezone">
+                                        <option value="Asia/Riyadh" selected>الرياض (GMT+3)</option>
+                                        <option value="Asia/Dubai">دبي (GMT+4)</option>
+                                        <option value="Asia/Kuwait">الكويت (GMT+3)</option>
+                                        <option value="Asia/Qatar">قطر (GMT+3)</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="dateFormat">تنسيق التاريخ</label>
+                                    <select id="dateFormat">
+                                        <option value="dd/mm/yyyy">يوم/شهر/سنة</option>
+                                        <option value="mm/dd/yyyy">شهر/يوم/سنة</option>
+                                        <option value="yyyy-mm-dd">سنة-شهر-يوم</option>
+                                    </select>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> حفظ الإعدادات
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <div class="settings-tab-content" id="appearanceTab">
+                            <h4>إعدادات المظهر</h4>
+                            <p>تخصيص مظهر الموقع والألوان</p>
+                        </div>
+                        
+                        <div class="settings-tab-content" id="notificationsTab">
+                            <h4>إعدادات الإشعارات</h4>
+                            <p>إدارة إشعارات البريد الإلكتروني والتنبيهات</p>
+                        </div>
+                        
+                        <div class="settings-tab-content" id="securityTab">
+                            <h4>إعدادات الأمان</h4>
+                            <p>إعدادات الحماية والخصوصية</p>
+                        </div>
+                        
+                        <div class="settings-tab-content" id="seoTab">
+                            <h4>إعدادات SEO</h4>
+                            <p>تحسين محركات البحث</p>
+                        </div>
+                        
+                        <div class="settings-tab-content" id="advancedTab">
+                            <h4>الإعدادات المتقدمة</h4>
+                            <p>إعدادات تقنية متقدمة</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- قسم إضافة رواية جديدة -->
+                <section class="admin-section" id="addNovelSection">
+                    <div class="section-header">
+                        <h2>إضافة رواية جديدة</h2>
+                        <p>إضافة رواية فانتازيا جديدة إلى المكتبة</p>
+                    </div>
+                    
+                    <form id="addNovelForm" enctype="multipart/form-data">
+                        <div class="form-row">
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label for="novelTitle">عنوان الرواية *</label>
+                                    <input type="text" id="novelTitle" placeholder="أدخل عنوان الرواية" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="novelAuthor">المؤلف *</label>
+                                    <input type="text" id="novelAuthor" placeholder="أدخل اسم المؤلف" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="novelCategory">التصنيف *</label>
+                                    <select id="novelCategory" required>
+                                        <option value="">اختر تصنيفاً</option>
+                                        <option value="fantasy">فانتازيا</option>
+                                        <option value="adventure">مغامرة</option>
+                                        <option value="romance">رومانسية</option>
+                                        <option value="mystery">غموض</option>
+                                        <option value="horror">رعب</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="novelType">نوع الملف *</label>
+                                    <select id="novelType" required>
+                                        <option value="">اختر نوع الملف</option>
+                                        <option value="pdf">PDF</option>
+                                        <option value="text">نص</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="novelPages">عدد الصفحات</label>
+                                    <input type="number" id="novelPages" placeholder="مثال: 250" min="1">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="novelLanguage">اللغة</label>
+                                    <select id="novelLanguage">
+                                        <option value="ar" selected>العربية</option>
+                                        <option value="en">الإنجليزية</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label for="novelCover">صورة الغلاف *</label>
+                                    <div class="file-upload">
+                                        <input type="file" id="novelCover" accept="image/*" style="display: none;">
+                                        <div class="upload-area" id="uploadArea">
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                            <p>اسحب وأفلت صورة الغلاف هنا أو انقر للاختيار</p>
+                                            <small>الحجم الأقصى: 5MB، الأنواع المسموحة: JPG, PNG</small>
+                                        </div>
+                                        <div class="upload-preview" id="uploadPreview" style="display: none;">
+                                            <img id="coverPreview" src="" alt="معاينة الغلاف">
+                                            <button type="button" class="btn btn-danger btn-sm" id="removeCover">
+                                                <i class="fas fa-trash"></i> إزالة
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="novelFile">ملف الرواية *</label>
+                                    <input type="file" id="novelFile" accept=".pdf,.txt,.doc,.docx" required>
+                                    <small>PDF أو ملف نصي</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="novelDescription">وصف الرواية *</label>
+                            <textarea id="novelDescription" rows="6" placeholder="اكتب وصفاً مفصلاً للرواية" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="novelTags">الكلمات المفتاحية</label>
+                            <input type="text" id="novelTags" placeholder="أدخل الكلمات المفتاحية مفصولة بفاصلة">
+                            <small>مثال: فانتازيا, مغامرة, تنين, سحر</small>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label for="novelStatus">حالة النشر</label>
+                                    <select id="novelStatus">
+                                        <option value="published">منشور</option>
+                                        <option value="draft">مسودة</option>
+                                        <option value="pending">قيد المراجعة</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label for="novelRating">التقييم الافتراضي</label>
+                                    <input type="number" id="novelRating" min="0" max="5" step="0.1" value="4.0">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-plus-circle"></i> إضافة الرواية
+                            </button>
+                            <button type="button" class="btn btn-outline" id="saveAsDraftBtn">
+                                <i class="fas fa-save"></i> حفظ كمسودة
+                            </button>
+                            <button type="reset" class="btn btn-outline">
+                                <i class="fas fa-redo"></i> إعادة تعيين
+                            </button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- نافذة التعديل السريع -->
+    <div class="quick-edit-modal" id="quickEditModal">
+        <div class="quick-edit-content">
+            <div class="quick-edit-header">
+                <h4>تعديل سريع</h4>
+                <button class="close-btn" id="closeQuickEdit"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="quick-edit-body" id="quickEditBody">
+                <!-- سيتم ملؤها بالجافاسكريبت -->
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة تأكيد الحذف -->
+    <div class="confirm-modal" id="confirmModal">
+        <div class="confirm-content">
+            <div class="confirm-header">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h4 id="confirmTitle">تأكيد الحذف</h4>
+            </div>
+            <div class="confirm-body">
+                <p id="confirmMessage">هل أنت متأكد من رغبتك في حذف هذا العنصر؟</p>
+            </div>
+            <div class="confirm-footer">
+                <button class="btn btn-outline" id="confirmCancel">إلغاء</button>
+                <button class="btn btn-danger" id="confirmDelete">حذف</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- إشعارات -->
+    <div class="notifications-modal" id="notificationsModal">
+        <div class="notifications-content">
+            <div class="notifications-header">
+                <h4>الإشعارات</h4>
+                <button class="close-btn" id="closeNotifications"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="notifications-body" id="notificationsList">
+                <!-- سيتم ملؤها بالجافاسكريبت -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
