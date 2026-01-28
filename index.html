@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sulaf.pdf - روايات فانتازيا</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
+</head>
+<body>
+    <!-- شاشة التحميل -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="logo">
+                <i class="fas fa-dragon"></i>
+                <h1>sulaf<span>.pdf</span></h1>
+            </div>
+            <p>جاري تحميل عالم الفانتازيا...</p>
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة تسجيل الدخول -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-content">
+            <div class="auth-header">
+                <h2>تسجيل الدخول</h2>
+                <button class="close-btn" id="closeAuthBtn"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">البريد الإلكتروني</label>
+                    <input type="email" id="email" required placeholder="example@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="password">كلمة المرور</label>
+                    <input type="password" id="password" required placeholder="أدخل كلمة المرور">
+                </div>
+                <button type="submit" class="btn btn-primary">تسجيل الدخول</button>
+                <p class="auth-link">ليس لديك حساب؟ <a href="#" id="showRegister">إنشاء حساب جديد</a></p>
+            </form>
+            <form id="registerForm" style="display: none;">
+                <div class="form-group">
+                    <label for="regName">الاسم الكامل</label>
+                    <input type="text" id="regName" required placeholder="أدخل اسمك الكامل">
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">البريد الإلكتروني</label>
+                    <input type="email" id="regEmail" required placeholder="example@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">كلمة المرور</label>
+                    <input type="password" id="regPassword" required placeholder="كلمة مرور قوية">
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">تأكيد كلمة المرور</label>
+                    <input type="password" id="confirmPassword" required placeholder="أعد إدخال كلمة المرور">
+                </div>
+                <button type="submit" class="btn btn-primary">إنشاء حساب</button>
+                <p class="auth-link">لديك حساب بالفعل؟ <a href="#" id="showLogin">تسجيل الدخول</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- الهيكل الرئيسي -->
+    <div class="app-container" id="appContainer" style="display: none;">
+        <!-- شريط التنقل العلوي -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="logo">
+                    <i class="fas fa-dragon"></i>
+                    <h1>sulaf<span>.pdf</span></h1>
+                </div>
+            </div>
+            
+            <div class="header-center">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="ابحث عن روايات فانتازيا...">
+                    <button class="search-btn" id="searchBtn">بحث</button>
+                </div>
+            </div>
+            
+            <div class="header-right">
+                <button class="btn btn-outline" id="writeNovelBtn">
+                    <i class="fas fa-pen"></i> اكتب رواية
+                </button>
+                <div class="user-avatar" id="userAvatar">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- المحتوى الرئيسي -->
+        <main class="main-content">
+            <!-- الصفحة الرئيسية -->
+            <section class="page active" id="homePage">
+                <div class="hero-section">
+                    <div class="hero-content">
+                        <h2>عالم الفانتازيا بين يديك</h2>
+                        <p>أكبر مكتبة روايات فانتازيا عربية، اقرأ وحمل واستمتع</p>
+                        <button class="btn btn-primary btn-large" id="exploreBtn">
+                            استكشف المكتبة <i class="fas fa-arrow-left"></i>
+                        </button>
+                    </div>
+                    <div class="hero-image">
+                        <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="فانتازيا">
+                    </div>
+                </div>
+
+                <!-- الروايات الأكثر شهرة -->
+                <div class="section-header">
+                    <h3>الروايات الأكثر شهرة</h3>
+                    <a href="#" class="see-all">عرض الكل <i class="fas fa-arrow-left"></i></a>
+                </div>
+                
+                <div class="novels-grid" id="popularNovels">
+                    <!-- سيتم تعبئتها بالجافاسكريبت -->
+                </div>
+
+                <!-- روايات جديدة -->
+                <div class="section-header">
+                    <h3>روايات جديدة</h3>
+                    <a href="#" class="see-all">عرض الكل <i class="fas fa-arrow-left"></i></a>
+                </div>
+                
+                <div class="novels-grid" id="newNovels">
+                    <!-- سيتم تعبئتها بالجافاسكريبت -->
+                </div>
+            </section>
+
+            <!-- صفحة البحث -->
+            <section class="page" id="searchPage">
+                <div class="page-header">
+                    <h2>البحث عن روايات</h2>
+                    <p>ابحث عن روايات فانتازيا من مختلف المصادر العربية</p>
+                </div>
+                
+                <div class="search-filters">
+                    <div class="filter-group">
+                        <label>التصنيف:</label>
+                        <select id="categoryFilter">
+                            <option value="all">الكل</option>
+                            <option value="fantasy">فانتازيا</option>
+                            <option value="adventure">مغامرة</option>
+                            <option value="romance">رومانسية</option>
+                            <option value="mystery">غموض</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>النوع:</label>
+                        <select id="typeFilter">
+                            <option value="all">الكل</option>
+                            <option value="pdf">PDF</option>
+                            <option value="text">نص</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>الترتيب:</label>
+                        <select id="sortFilter">
+                            <option value="popular">الأكثر شعبية</option>
+                            <option value="new">الأحدث</option>
+                            <option value="rating">الأعلى تقييماً</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="search-results" id="searchResults">
+                    <!-- سيتم تعبئتها بالجافاسكريبت -->
+                </div>
+            </section>
+
+            <!-- صفحة الذكاء الاصطناعي -->
+            <section class="page" id="aiPage">
+                <div class="page-header">
+                    <h2>مساعد الذكاء الاصطناعي</h2>
+                    <p>اسأل أو اطلب مساعدة في كتابة روايات فانتازيا</p>
+                </div>
+                
+                <div class="ai-container">
+                    <div class="ai-chat">
+                        <div class="ai-messages" id="aiMessages">
+                            <div class="message ai-message">
+                                <div class="message-content">
+                                    <p>مرحباً! أنا مساعد الذكاء الاصطناعي لـ sulaf.pdf. كيف يمكنني مساعدتك اليوم؟ يمكنني اقتراح أفكار لروايات فانتازيا، أو الإجابة على أسئلتك عن عالم الفانتازيا، أو مساعدتك في تطوير قصتك.</p>
+                                </div>
+                                <div class="message-sender">
+                                    <i class="fas fa-robot"></i> مساعد AI
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="ai-input">
+                            <input type="text" id="aiInput" placeholder="اكتب سؤالك أو طلبك هنا...">
+                            <button class="btn btn-primary" id="sendAiBtn">
+                                <i class="fas fa-paper-plane"></i> إرسال
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-actions">
+                        <h3>أفكار سريعة</h3>
+                        <div class="quick-actions">
+                            <button class="quick-action" data-prompt="اقترح لي فكرة لرواية فانتازيا">
+                                <i class="fas fa-lightbulb"></i>
+                                <span>اقترح فكرة رواية</span>
+                            </button>
+                            <button class="quick-action" data-prompt="ما هي أفضل روايات الفانتازيا العربية؟">
+                                <i class="fas fa-book"></i>
+                                <span>روايات فانتازيا عربية</span>
+                            </button>
+                            <button class="quick-action" data-prompt="كيف يمكنني تطوير شخصية بطلة قوية في رواية فانتازيا؟">
+                                <i class="fas fa-user-plus"></i>
+                                <span>تطوير شخصية</span>
+                            </button>
+                            <button class="quick-action" data-prompt="اكتب لي مشهد افتتاحي لرواية فانتازيا">
+                                <i class="fas fa-pen"></i>
+                                <span>مشهد افتتاحي</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- صفحة رواياتي -->
+            <section class="page" id="myNovelsPage">
+                <div class="page-header">
+                    <h2>رواياتي</h2>
+                    <p>إدارة رواياتك المنشورة والمفضلة والمحفوظة</p>
+                </div>
+                
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="published">رواياتي المنشورة</button>
+                    <button class="tab-btn" data-tab="favorites">المفضلة</button>
+                    <button class="tab-btn" data-tab="downloads">التنزيلات</button>
+                </div>
+                
+                <div class="tab-content active" id="publishedTab">
+                    <div class="empty-state" id="emptyPublished">
+                        <i class="fas fa-book-open"></i>
+                        <h3>لا توجد روايات منشورة</h3>
+                        <p>ابدأ بكتابة روايتك الأولى وانشرها على sulaf.pdf</p>
+                        <button class="btn btn-primary" id="startWritingBtn">ابدأ الكتابة</button>
+                    </div>
+                    <div class="novels-grid" id="publishedNovels">
+                        <!-- سيتم تعبئتها بالجافاسكريبت -->
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="favoritesTab">
+                    <div class="empty-state">
+                        <i class="fas fa-heart"></i>
+                        <h3>لا توجد روايات مفضلة</h3>
+                        <p>أضف روايات إلى المفضلة لتظهر هنا</p>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="downloadsTab">
+                    <div class="empty-state">
+                        <i class="fas fa-download"></i>
+                        <h3>لا توجد روايات منزلة</h3>
+                        <p>الروايات التي تقوم بتنزيلها ستظهر هنا</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- صفحة الحساب -->
+            <section class="page" id="accountPage">
+                <div class="page-header">
+                    <h2>حسابي</h2>
+                    <p>إدارة حسابك وإعداداتك الشخصية</p>
+                </div>
+                
+                <div class="account-container">
+                    <div class="account-sidebar">
+                        <div class="user-info">
+                            <div class="user-avatar large">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <h3 id="userName">زائر</h3>
+                            <p id="userEmail">لم تقم بتسجيل الدخول</p>
+                        </div>
+                        
+                        <nav class="account-nav">
+                            <a href="#" class="account-nav-item active" data-section="profile">
+                                <i class="fas fa-user-circle"></i> الملف الشخصي
+                            </a>
+                            <a href="#" class="account-nav-item" data-section="settings">
+                                <i class="fas fa-cog"></i> الإعدادات
+                            </a>
+                            <a href="#" class="account-nav-item" data-section="subscription">
+                                <i class="fas fa-crown"></i> الاشتراك
+                            </a>
+                            <a href="#" class="account-nav-item" data-section="help">
+                                <i class="fas fa-question-circle"></i> المساعدة
+                            </a>
+                            <a href="#" class="account-nav-item logout" id="logoutBtn">
+                                <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+                            </a>
+                        </nav>
+                    </div>
+                    
+                    <div class="account-content">
+                        <div class="account-section active" id="profileSection">
+                            <h3>الملف الشخصي</h3>
+                            <form id="profileForm">
+                                <div class="form-group">
+                                    <label for="profileName">الاسم الكامل</label>
+                                    <input type="text" id="profileName" placeholder="SULAF">
+                                </div>
+                                <div class="form-group">
+                                    <label for="profileEmail">البريد الإلكتروني</label>
+                                    <input type="email" id="profileEmail" placeholder="abnadlep08@email.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="profileBio">نبذة عنك</label>
+                                    <textarea id="profileBio" rows="4" placeholder="Sulaf Al Assmar
+قارئة وكاتبة روايات"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
+                            </form>
+                        </div>
+                        
+                        <div class="account-section" id="settingsSection">
+                            <h3>الإعدادات</h3>
+                            <div class="settings-options">
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <h4>الإشعارات</h4>
+                                        <p>تلقي إشعارات عن الروايات الجديدة والتحديثات</p>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <h4>الوضع الليلي</h4>
+                                        <p>تبديل الوضع الليلي لتجربة قراءة أفضل</p>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" id="darkModeToggle">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <h4>التنزيل التلقائي</h4>
+                                        <p>تنزيل الروايات المفضلة تلقائياً</p>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="account-section" id="subscriptionSection">
+                            <h3>الاشتراك المميز</h3>
+                            <div class="subscription-plans">
+                                <div class="plan">
+                                    <h4>مجاني</h4>
+                                    <div class="plan-price">0 <span>ر.س/شهر</span></div>
+                                    <ul class="plan-features">
+                                        <li><i class="fas fa-check"></i> 5 تنزيلات شهرياً</li>
+                                        <li><i class="fas fa-check"></i> قراءة عبر الإنترنت</li>
+                                        <li><i class="fas fa-times"></i> رفع روايات خاصة</li>
+                                        <li><i class="fas fa-times"></i> دعم الذكاء الاصطناعي المتقدم</li>
+                                    </ul>
+                                    <button class="btn btn-outline" disabled>مفعل حالياً</button>
+                                </div>
+                                <div class="plan recommended">
+                                    <div class="recommended-badge">موصى به</div>
+                                    <h4>المميز</h4>
+                                    <div class="plan-price">2000<span>ل.س / شهر</span></div>
+                                    <ul class="plan-features">
+                                        <li><i class="fas fa-check"></i> تنزيلات غير محدودة</li>
+                                        <li><i class="fas fa-check"></i> قراءة دون اتصال</li>
+                                        <li><i class="fas fa-check"></i> رفع روايات خاصة</li>
+                                        <li><i class="fas fa-check"></i> دعم الذكاء الاصطناعي المتقدم</li>
+                                    </ul>
+                                    <button class="btn btn-primary">ترقية الآن</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="account-section" id="helpSection">
+                            <h3>المساعدة والدعم</h3>
+                            <div class="help-links">
+                                <a href="#" class="help-link">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span>الأسئلة الشائعة</span>
+                                </a>
+                                <a href="#" class="help-link">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>اتصل بنا</span>
+                                </a>
+                                <a href="#" class="help-link">
+                                    <i class="fas fa-file-contract"></i>
+                                    <span>شروط الاستخدام</span>
+                                </a>
+                                <a href="#" class="help-link">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <span>سياسة الخصوصية</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- شريط التنقل السفلي -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active" data-page="homePage">
+                <i class="fas fa-home"></i>
+                <span>الرئيسية</span>
+            </a>
+            <a href="#" class="nav-item" data-page="searchPage">
+                <i class="fas fa-search"></i>
+                <span>البحث</span>
+            </a>
+            <a href="#" class="nav-item" data-page="aiPage">
+                <i class="fas fa-robot"></i>
+                <span>الذكاء الاصطناعي</span>
+            </a>
+            <a href="#" class="nav-item" data-page="myNovelsPage">
+                <i class="fas fa-book"></i>
+                <span>رواياتي</span>
+            </a>
+            <a href="#" class="nav-item" data-page="accountPage">
+                <i class="fas fa-user"></i>
+                <span>حسابي</span>
+            </a>
+        </nav>
+
+        <!-- نافذة تفاصيل الرواية -->
+        <div class="novel-modal" id="novelModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="novelTitle">عنوان الرواية</h2>
+                    <button class="close-btn" id="closeNovelBtn"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="novel-details">
+                        <div class="novel-cover">
+                            <img id="novelCover" src="" alt="غلاف الرواية">
+                        </div>
+                        <div class="novel-info">
+                            <div class="novel-meta">
+                                <span class="novel-author" id="novelAuthor">المؤلف</span>
+                                <span class="novel-category" id="novelCategory">فانتازيا</span>
+                                <span class="novel-pages" id="novelPages">250 صفحة</span>
+                            </div>
+                            <div class="novel-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span id="novelRating">4.5</span>
+                            </div>
+                            <p class="novel-description" id="novelDescription">وصف الرواية</p>
+                            <div class="novel-actions">
+                                <button class="btn btn-primary" id="readNovelBtn">
+                                    <i class="fas fa-book-open"></i> اقرأ الآن
+                                </button>
+                                <button class="btn btn-outline" id="downloadNovelBtn">
+                                    <i class="fas fa-download"></i> تنزيل PDF
+                                </button>
+                                <button class="btn btn-outline" id="favoriteNovelBtn">
+                                    <i class="far fa-heart"></i> إضافة إلى المفضلة
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- رابط لوحة التحكم -->
+    <a href="admin/index.html" class="admin-link" target="_blank" id="adminLink">
+        <i class="fas fa-cog"></i> لوحة التحكم
+    </a>
+
+    <!-- المطور -->
+    <div class="developer-info">
+        <p>تم التطوير بواسطة <strong>Adlep X</strong> <a href="https://instagram.com/xlb_me" target="_blank">@xlb_me</a></p>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
